@@ -40,9 +40,7 @@ fn create_image(
         )
     };
 
-    unsafe {
-        Image::from_raw(raw_image)
-    }
+    unsafe { Image::from_raw(raw_image) }
 }
 
 fn main() {
@@ -79,7 +77,6 @@ fn main() {
     let mut paused = false;
 
     while !rl.window_should_close() {
-
         if rl.is_key_pressed(KeyboardKey::KEY_SPACE) {
             paused = !paused;
         }
@@ -102,8 +99,28 @@ fn main() {
             .update_texture(&pixel_data)
             .expect("No se pudo actualizar la textura");
 
-        let screen_width = rl.get_screen_width();
-        let screen_height = rl.get_screen_height();
+        let screen_width = rl.get_screen_width() as f32;
+        let screen_height = rl.get_screen_height() as f32;
+
+        let scale_x =
+            screen_width / FRAMEBUFFER_WIDTH as f32;
+
+        let scale_y =
+            screen_height / FRAMEBUFFER_HEIGHT as f32;
+
+        let scale = scale_x.min(scale_y);
+
+        let render_width =
+            FRAMEBUFFER_WIDTH as f32 * scale;
+
+        let render_height =
+            FRAMEBUFFER_HEIGHT as f32 * scale;
+
+        let offset_x =
+            (screen_width - render_width) / 2.0;
+
+        let offset_y =
+            (screen_height - render_height) / 2.0;
 
         let mut d = rl.begin_drawing(&thread);
 
@@ -118,10 +135,10 @@ fn main() {
                 height: FRAMEBUFFER_HEIGHT as f32,
             },
             Rectangle {
-                x: 0.0,
-                y: 0.0,
-                width: screen_width as f32,
-                height: screen_height as f32,
+                x: offset_x,
+                y: offset_y,
+                width: render_width,
+                height: render_height,
             },
             Vector2::zero(),
             0.0,
@@ -137,7 +154,7 @@ fn main() {
         d.draw_rectangle(
             0,
             0,
-            screen_width,
+            screen_width as i32,
             55,
             Color::new(0, 0, 0, 180),
         );

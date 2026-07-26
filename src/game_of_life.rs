@@ -244,66 +244,31 @@ fn place_pattern(
 pub fn load_initial_patterns(framebuffer: &mut Framebuffer) {
     framebuffer.clear();
 
-    add_block(framebuffer, 5, 6);
-    add_beehive(framebuffer, 15, 5);
-    add_boat(framebuffer, 27, 7);
-    add_tub(framebuffer, 38, 5);
-    add_loaf(framebuffer, 49, 6);
-    add_blinker(framebuffer, 62, 5);
-    add_toad(framebuffer, 72, 7);
-    add_glider(framebuffer, 88, 5);
+    let columns = 8;
+    let rows = 7;
 
-    add_glider(framebuffer, 8, 18);
-    add_beacon(framebuffer, 20, 18);
-    add_block(framebuffer, 33, 20);
-    add_beehive(framebuffer, 44, 18);
-    add_blinker(framebuffer, 57, 20);
-    add_boat(framebuffer, 67, 18);
-    add_tub(framebuffer, 78, 20);
-    add_glider(framebuffer, 89, 18);
+    let cell_width = framebuffer.width / columns;
+    let cell_height = framebuffer.height / rows;
 
-    add_toad(framebuffer, 5, 32);
-    add_boat(framebuffer, 17, 31);
-    add_glider(framebuffer, 28, 33);
-    add_loaf(framebuffer, 39, 31);
-    add_beacon(framebuffer, 51, 32);
-    add_block(framebuffer, 64, 33);
-    add_beehive(framebuffer, 75, 31);
-    add_blinker(framebuffer, 90, 32);
+    for row in 0..rows {
+        for column in 0..columns {
+            let x = column * cell_width + 2;
+            let y = row * cell_height + 2;
 
-    add_tub(framebuffer, 8, 45);
-    add_blinker(framebuffer, 18, 44);
-    add_beehive(framebuffer, 29, 46);
-    add_glider(framebuffer, 42, 44);
-    add_toad(framebuffer, 53, 45);
-    add_boat(framebuffer, 66, 44);
-    add_beacon(framebuffer, 77, 45);
-    add_glider(framebuffer, 91, 46);
+            let pattern_number = (row * columns + column) % 10;
 
-    add_block(framebuffer, 5, 58);
-    add_loaf(framebuffer, 16, 57);
-    add_glider(framebuffer, 29, 59);
-    add_tub(framebuffer, 40, 58);
-    add_blinker(framebuffer, 51, 57);
-    add_beehive(framebuffer, 62, 59);
-    add_boat(framebuffer, 75, 57);
-    add_lwss(framebuffer, 86, 58);
-
-    add_glider(framebuffer, 8, 72);
-    add_beacon(framebuffer, 20, 70);
-    add_toad(framebuffer, 34, 72);
-    add_block(framebuffer, 47, 70);
-    add_boat(framebuffer, 58, 73);
-    add_loaf(framebuffer, 69, 70);
-    add_blinker(framebuffer, 82, 72);
-    add_glider(framebuffer, 92, 70);
-
-    add_tub(framebuffer, 5, 86);
-    add_beehive(framebuffer, 16, 84);
-    add_glider(framebuffer, 29, 86);
-    add_block(framebuffer, 41, 85);
-    add_beacon(framebuffer, 52, 84);
-    add_boat(framebuffer, 65, 86);
-    add_toad(framebuffer, 76, 84);
-    add_lwss(framebuffer, 88, 84);
+            match pattern_number {
+                0 => add_block(framebuffer, x, y),
+                1 => add_beehive(framebuffer, x, y),
+                2 => add_loaf(framebuffer, x, y),
+                3 => add_boat(framebuffer, x, y),
+                4 => add_tub(framebuffer, x, y),
+                5 => add_blinker(framebuffer, x, y),
+                6 => add_toad(framebuffer, x, y),
+                7 => add_beacon(framebuffer, x, y),
+                8 => add_glider(framebuffer, x, y),
+                _ => add_lwss(framebuffer, x, y),
+            }
+        }
+    }
 }
