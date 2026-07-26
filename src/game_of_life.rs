@@ -46,28 +46,7 @@ pub fn render(framebuffer: &mut Framebuffer) {
     }
 }
 
-pub fn add_glider(
-    framebuffer: &mut Framebuffer,
-    start_x: u32,
-    start_y: u32,
-) {
-    let pattern = [
-        (1, 0),
-        (2, 1),
-        (0, 2),
-        (1, 2),
-        (2, 2),
-    ];
 
-    framebuffer.set_current_color(ALIVE_COLOR);
-
-    for (offset_x, offset_y) in pattern {
-        framebuffer.point(
-            start_x + offset_x,
-            start_y + offset_y,
-        );
-    }
-}
 
 fn count_alive_neighbors(
     framebuffer: &Framebuffer,
@@ -102,6 +81,76 @@ fn count_alive_neighbors(
     alive_neighbors
 }
 
+pub fn add_block(
+    framebuffer: &mut Framebuffer,
+    start_x: u32,
+    start_y: u32,
+) {
+    let pattern = [
+        (0, 0), (1, 0),
+        (0, 1), (1, 1),
+    ];
+
+    place_pattern(framebuffer, start_x, start_y, &pattern);
+}
+
+pub fn add_beehive(
+    framebuffer: &mut Framebuffer,
+    start_x: u32,
+    start_y: u32,
+) {
+    let pattern = [
+                (1, 0), (2, 0),
+        (0, 1),                 (3, 1),
+                (1, 2), (2, 2),
+    ];
+
+    place_pattern(framebuffer, start_x, start_y, &pattern);
+}
+
+pub fn add_loaf(
+    framebuffer: &mut Framebuffer,
+    start_x: u32,
+    start_y: u32,
+) {
+    let pattern = [
+                (1, 0), (2, 0),
+        (0, 1),                 (3, 1),
+                (1, 2),         (3, 2),
+                        (2, 3),
+    ];
+
+    place_pattern(framebuffer, start_x, start_y, &pattern);
+}
+
+pub fn add_boat(
+    framebuffer: &mut Framebuffer,
+    start_x: u32,
+    start_y: u32,
+) {
+    let pattern = [
+        (0, 0), (1, 0),
+        (0, 1),         (2, 1),
+                (1, 2),
+    ];
+
+    place_pattern(framebuffer, start_x, start_y, &pattern);
+}
+
+pub fn add_tub(
+    framebuffer: &mut Framebuffer,
+    start_x: u32,
+    start_y: u32,
+) {
+    let pattern = [
+                (1, 0),
+        (0, 1),         (2, 1),
+                (1, 2),
+    ];
+
+    place_pattern(framebuffer, start_x, start_y, &pattern);
+}
+
 pub fn add_blinker(
     framebuffer: &mut Framebuffer,
     start_x: u32,
@@ -109,16 +158,152 @@ pub fn add_blinker(
 ) {
     let pattern = [
         (0, 0),
-        (1, 0),
-        (2, 0),
+        (0, 1),
+        (0, 2),
     ];
 
+    place_pattern(framebuffer, start_x, start_y, &pattern);
+}
+
+pub fn add_toad(
+    framebuffer: &mut Framebuffer,
+    start_x: u32,
+    start_y: u32,
+) {
+    let pattern = [
+                (1, 0), (2, 0), (3, 0),
+        (0, 1), (1, 1), (2, 1),
+    ];
+
+    place_pattern(framebuffer, start_x, start_y, &pattern);
+}
+
+pub fn add_beacon(
+    framebuffer: &mut Framebuffer,
+    start_x: u32,
+    start_y: u32,
+) {
+    let pattern = [
+        (0, 0), (1, 0),
+        (0, 1), (1, 1),
+
+                        (2, 2), (3, 2),
+                        (2, 3), (3, 3),
+    ];
+
+    place_pattern(framebuffer, start_x, start_y, &pattern);
+}
+
+pub fn add_glider(
+    framebuffer: &mut Framebuffer,
+    start_x: u32,
+    start_y: u32,
+) {
+    let pattern = [
+                (1, 0),
+                        (2, 1),
+        (0, 2), (1, 2), (2, 2),
+    ];
+
+    place_pattern(framebuffer, start_x, start_y, &pattern);
+}
+
+pub fn add_lwss(
+    framebuffer: &mut Framebuffer,
+    start_x: u32,
+    start_y: u32,
+) {
+    let pattern = [
+        (1, 0),                         (4, 0),
+        (0, 1),
+        (0, 2),                         (4, 2),
+        (0, 3), (1, 3), (2, 3), (3, 3),
+    ];
+
+    place_pattern(framebuffer, start_x, start_y, &pattern);
+}
+
+fn place_pattern(
+    framebuffer: &mut Framebuffer,
+    start_x: u32,
+    start_y: u32,
+    pattern: &[(u32, u32)],
+) {
     framebuffer.set_current_color(ALIVE_COLOR);
 
-    for (offset_x, offset_y) in pattern {
-        framebuffer.point(
-            start_x + offset_x,
-            start_y + offset_y,
-        );
+    for &(offset_x, offset_y) in pattern {
+        let x = start_x + offset_x;
+        let y = start_y + offset_y;
+
+        if x < framebuffer.width && y < framebuffer.height {
+            framebuffer.point(x, y);
+        }
     }
+}
+
+pub fn load_initial_patterns(framebuffer: &mut Framebuffer) {
+    framebuffer.clear();
+
+    add_block(framebuffer, 5, 6);
+    add_beehive(framebuffer, 15, 5);
+    add_boat(framebuffer, 27, 7);
+    add_tub(framebuffer, 38, 5);
+    add_loaf(framebuffer, 49, 6);
+    add_blinker(framebuffer, 62, 5);
+    add_toad(framebuffer, 72, 7);
+    add_glider(framebuffer, 88, 5);
+
+    add_glider(framebuffer, 8, 18);
+    add_beacon(framebuffer, 20, 18);
+    add_block(framebuffer, 33, 20);
+    add_beehive(framebuffer, 44, 18);
+    add_blinker(framebuffer, 57, 20);
+    add_boat(framebuffer, 67, 18);
+    add_tub(framebuffer, 78, 20);
+    add_glider(framebuffer, 89, 18);
+
+    add_toad(framebuffer, 5, 32);
+    add_boat(framebuffer, 17, 31);
+    add_glider(framebuffer, 28, 33);
+    add_loaf(framebuffer, 39, 31);
+    add_beacon(framebuffer, 51, 32);
+    add_block(framebuffer, 64, 33);
+    add_beehive(framebuffer, 75, 31);
+    add_blinker(framebuffer, 90, 32);
+
+    add_tub(framebuffer, 8, 45);
+    add_blinker(framebuffer, 18, 44);
+    add_beehive(framebuffer, 29, 46);
+    add_glider(framebuffer, 42, 44);
+    add_toad(framebuffer, 53, 45);
+    add_boat(framebuffer, 66, 44);
+    add_beacon(framebuffer, 77, 45);
+    add_glider(framebuffer, 91, 46);
+
+    add_block(framebuffer, 5, 58);
+    add_loaf(framebuffer, 16, 57);
+    add_glider(framebuffer, 29, 59);
+    add_tub(framebuffer, 40, 58);
+    add_blinker(framebuffer, 51, 57);
+    add_beehive(framebuffer, 62, 59);
+    add_boat(framebuffer, 75, 57);
+    add_lwss(framebuffer, 86, 58);
+
+    add_glider(framebuffer, 8, 72);
+    add_beacon(framebuffer, 20, 70);
+    add_toad(framebuffer, 34, 72);
+    add_block(framebuffer, 47, 70);
+    add_boat(framebuffer, 58, 73);
+    add_loaf(framebuffer, 69, 70);
+    add_blinker(framebuffer, 82, 72);
+    add_glider(framebuffer, 92, 70);
+
+    add_tub(framebuffer, 5, 86);
+    add_beehive(framebuffer, 16, 84);
+    add_glider(framebuffer, 29, 86);
+    add_block(framebuffer, 41, 85);
+    add_beacon(framebuffer, 52, 84);
+    add_boat(framebuffer, 65, 86);
+    add_toad(framebuffer, 76, 84);
+    add_lwss(framebuffer, 88, 84);
 }
