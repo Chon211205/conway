@@ -241,34 +241,120 @@ fn place_pattern(
     }
 }
 
+pub fn add_pulsar(
+    framebuffer: &mut Framebuffer,
+    start_x: u32,
+    start_y: u32,
+) {
+    let pattern = [
+        (2, 0), (3, 0), (4, 0),
+        (8, 0), (9, 0), (10, 0),
+
+        (0, 2), (5, 2), (7, 2), (12, 2),
+        (0, 3), (5, 3), (7, 3), (12, 3),
+        (0, 4), (5, 4), (7, 4), (12, 4),
+
+        (2, 5), (3, 5), (4, 5),
+        (8, 5), (9, 5), (10, 5),
+
+        (2, 7), (3, 7), (4, 7),
+        (8, 7), (9, 7), (10, 7),
+
+        (0, 8), (5, 8), (7, 8), (12, 8),
+        (0, 9), (5, 9), (7, 9), (12, 9),
+        (0, 10), (5, 10), (7, 10), (12, 10),
+
+        (2, 12), (3, 12), (4, 12),
+        (8, 12), (9, 12), (10, 12),
+    ];
+
+    place_pattern(framebuffer, start_x, start_y, &pattern);
+}
+
+pub fn add_pentadecathlon(
+    framebuffer: &mut Framebuffer,
+    start_x: u32,
+    start_y: u32,
+) {
+    let pattern = [
+        (2, 0), (3, 0), (4, 0),
+
+        (1, 2), (5, 2),
+
+        (0, 3), (1, 3), (5, 3), (6, 3),
+
+        (1, 4), (5, 4),
+
+        (2, 6), (3, 6), (4, 6),
+    ];
+
+    place_pattern(framebuffer, start_x, start_y, &pattern);
+}
+
 pub fn load_initial_patterns(framebuffer: &mut Framebuffer) {
     framebuffer.clear();
 
-    let columns = 8;
-    let rows = 7;
+    add_block(framebuffer, 5, 6);
+    add_beehive(framebuffer, 15, 5);
+    add_boat(framebuffer, 27, 7);
+    add_tub(framebuffer, 38, 5);
+    add_loaf(framebuffer, 49, 6);
+    add_blinker(framebuffer, 62, 5);
+    add_toad(framebuffer, 72, 7);
+    add_glider(framebuffer, 88, 5);
 
-    let cell_width = framebuffer.width / columns;
-    let cell_height = framebuffer.height / rows;
+    add_glider(framebuffer, 8, 18);
+    add_beacon(framebuffer, 20, 18);
+    add_block(framebuffer, 33, 20);
+    add_beehive(framebuffer, 44, 18);
+    add_blinker(framebuffer, 57, 20);
+    add_boat(framebuffer, 67, 18);
+    add_tub(framebuffer, 78, 20);
+    add_glider(framebuffer, 89, 18);
 
-    for row in 0..rows {
-        for column in 0..columns {
-            let x = column * cell_width + 2;
-            let y = row * cell_height + 2;
+    add_toad(framebuffer, 5, 32);
+    add_boat(framebuffer, 17, 31);
+    add_glider(framebuffer, 28, 33);
 
-            let pattern_number = (row * columns + column) % 10;
+    add_pulsar(framebuffer, 39, 29);
 
-            match pattern_number {
-                0 => add_block(framebuffer, x, y),
-                1 => add_beehive(framebuffer, x, y),
-                2 => add_loaf(framebuffer, x, y),
-                3 => add_boat(framebuffer, x, y),
-                4 => add_tub(framebuffer, x, y),
-                5 => add_blinker(framebuffer, x, y),
-                6 => add_toad(framebuffer, x, y),
-                7 => add_beacon(framebuffer, x, y),
-                8 => add_glider(framebuffer, x, y),
-                _ => add_lwss(framebuffer, x, y),
-            }
-        }
-    }
+    add_block(framebuffer, 64, 33);
+    add_beehive(framebuffer, 75, 31);
+    add_blinker(framebuffer, 90, 32);
+
+    add_tub(framebuffer, 8, 45);
+    add_blinker(framebuffer, 18, 44);
+    add_beehive(framebuffer, 29, 46);
+
+    add_boat(framebuffer, 66, 44);
+    add_beacon(framebuffer, 77, 45);
+    add_glider(framebuffer, 91, 46);
+
+    add_block(framebuffer, 5, 58);
+    add_loaf(framebuffer, 16, 57);
+    add_glider(framebuffer, 29, 59);
+    add_tub(framebuffer, 40, 58);
+
+    add_pentadecathlon(framebuffer, 51, 56);
+
+    add_boat(framebuffer, 75, 57);
+    add_lwss(framebuffer, 86, 58);
+
+    add_glider(framebuffer, 8, 72);
+    add_beacon(framebuffer, 20, 70);
+    add_toad(framebuffer, 34, 72);
+    add_block(framebuffer, 47, 70);
+    add_boat(framebuffer, 58, 73);
+    add_loaf(framebuffer, 69, 70);
+    add_blinker(framebuffer, 82, 72);
+    add_glider(framebuffer, 92, 70);
+
+    add_tub(framebuffer, 5, 86);
+    add_beehive(framebuffer, 16, 84);
+    add_glider(framebuffer, 29, 86);
+    add_block(framebuffer, 41, 85);
+    add_beacon(framebuffer, 52, 84);
+    add_boat(framebuffer, 65, 86);
+    add_toad(framebuffer, 76, 84);
+    add_lwss(framebuffer, 88, 84);
 }
