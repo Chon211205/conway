@@ -1,3 +1,9 @@
-## Demostración
+<h2 align="center">Demostración</h2>
 
-![Conway's Game of Life](assets/capture_20260726_151110.gif)
+<p align="center">
+  <img
+    src="capture_20260726_151110.gif"
+    alt="Conway's Game of Life en ejecución"
+    width="700"
+  >
+</p>
