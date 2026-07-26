@@ -82,23 +82,18 @@ fn count_alive_neighbors(
                 continue;
             }
 
-            let neighbor_x = x as i32 + offset_x;
-            let neighbor_y = y as i32 + offset_y;
+            let neighbor_x = (x as i32 + offset_x)
+                .rem_euclid(framebuffer.width as i32);
 
-            if neighbor_x < 0
-                || neighbor_y < 0
-                || neighbor_x >= framebuffer.width as i32
-                || neighbor_y >= framebuffer.height as i32
-            {
-                continue;
-            }
+            let neighbor_y = (y as i32 + offset_y)
+                .rem_euclid(framebuffer.height as i32);
 
-            let neighbor_color = framebuffer.get_color(
+            let color = framebuffer.get_color(
                 neighbor_x as u32,
                 neighbor_y as u32,
             );
 
-            if neighbor_color == ALIVE_COLOR {
+            if color == ALIVE_COLOR {
                 alive_neighbors += 1;
             }
         }
