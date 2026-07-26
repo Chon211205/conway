@@ -3,7 +3,7 @@ use raylib::prelude::*;
 use crate::framebuffer::Framebuffer;
 
 const ALIVE_COLOR: Color = Color::GREEN;
-const DEAD_COLOR: Color = Color::RED;
+const DEAD_COLOR: Color = Color::BLACK;
 
 pub fn render(framebuffer: &mut Framebuffer) {
     let width = framebuffer.width;
@@ -105,4 +105,25 @@ fn count_alive_neighbors(
     }
 
     alive_neighbors
+}
+
+pub fn add_blinker(
+    framebuffer: &mut Framebuffer,
+    start_x: u32,
+    start_y: u32,
+) {
+    let pattern = [
+        (0, 0),
+        (1, 0),
+        (2, 0),
+    ];
+
+    framebuffer.set_current_color(ALIVE_COLOR);
+
+    for (offset_x, offset_y) in pattern {
+        framebuffer.point(
+            start_x + offset_x,
+            start_y + offset_y,
+        );
+    }
 }

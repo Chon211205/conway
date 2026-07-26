@@ -2,7 +2,7 @@ mod framebuffer;
 mod game_of_life;
 
 use framebuffer::Framebuffer;
-use game_of_life::{add_glider, render};
+use game_of_life::{add_blinker, add_glider, render};
 
 use raylib::ffi;
 use raylib::prelude::*;
@@ -58,6 +58,7 @@ fn main() {
     add_glider(&mut framebuffer, 10, 10);
     add_glider(&mut framebuffer, 30, 20);
     add_glider(&mut framebuffer, 60, 50);
+    add_blinker(&mut framebuffer, 45, 45);
 
     let image = create_image(
         FRAMEBUFFER_WIDTH as i32,
